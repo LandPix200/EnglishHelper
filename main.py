@@ -1,6 +1,10 @@
 from PyQt6.QtWidgets import QMainWindow, QApplication, QMessageBox
 import sys
+
+from dotenv import load_dotenv
+
 from api.helper_service import HelperService
+from api.language_helper import LanguageHelper
 from models.helper_response import HelperResponse
 from ui.main_window import Ui_MainWindow
 
@@ -24,9 +28,8 @@ class EnglishHelperWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.critical(self, "Error", str(e))
 
 
-
-
 if __name__ == '__main__':
+    load_dotenv()
     app = QApplication(sys.argv)
     window = EnglishHelperWindow()
     window.show()

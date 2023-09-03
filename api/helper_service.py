@@ -1,4 +1,7 @@
+import os
+
 import requests
+from translate import Translator
 
 
 class HelperService:
@@ -7,9 +10,12 @@ class HelperService:
 
     def generate_response(self) -> str:
         API_URL = "https://api-inference.huggingface.co/models/xlm-roberta-base"
-        headers = {"Authorization": "Bearer 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"}
+        headers = {"Authorization": "Bearer {}".format(os.getenv("HUGGING_FACE_API_KEY"))}
 
         mask_count = self.arrange_sentence()
+
+        translater = Translator(to_lang="en")
+        self.sentence = translater.translate(self.sentence)
 
         if mask_count == 1:
             response = requests.post(API_URL, headers=headers, json={"inputs": self.sentence})
